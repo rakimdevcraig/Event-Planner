@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import NotFound from "./components/NotFound";
+import CreateEvent from "./pages/CreateEvent";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -17,7 +18,7 @@ function App() {
 
     if (token) {
       axios
-        .get("/api/users/me", {
+        .get("http://localhost:5000/api/users/me", {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(res => {
@@ -55,6 +56,10 @@ function App() {
           element={user ? <Navigate to="/" /> : <Register setUser={setUser} />}
         />
         <Route path="*" element={<NotFound />} />
+        <Route
+          path="/events/create"
+          element={user ? <CreateEvent /> : <Navigate to="/login" />}
+        />
       </Routes>
     </>
   );

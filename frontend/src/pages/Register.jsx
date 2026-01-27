@@ -9,6 +9,7 @@ function Register({ setUser }) {
     username: "",
     email: "",
     password: "",
+    role: "",
   });
 
   const handleChange = e => {
@@ -19,7 +20,7 @@ function Register({ setUser }) {
     e.preventDefault();
 
     axios
-      .post("/api/users/register", formData)
+      .post("http://localhost:5000/api/users/register", formData)
       .then(res => {
         localStorage.setItem("token", res.data.token);
         console.log(res.data);
@@ -29,6 +30,7 @@ function Register({ setUser }) {
           username: "",
           email: "",
           password: "",
+          role: "",
         });
       })
       .catch(err => {
@@ -38,7 +40,7 @@ function Register({ setUser }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md-border border-gray-200">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-1/4 min-h-[500px] border border-gray-200">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
           Register
         </h2>
@@ -83,6 +85,20 @@ function Register({ setUser }) {
               value={formData.password}
               onChange={handleChange}
               placeholder="Enter Your Password"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label className="block text-gray-600 text-sm font-medium mb-1">
+              Role
+            </label>
+            <input
+              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-200 outline-none focus:border-blue-400"
+              type="text"
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              placeholder="Enter Your Role"
               required
             />
           </div>

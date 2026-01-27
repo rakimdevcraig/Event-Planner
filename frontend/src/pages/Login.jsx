@@ -18,7 +18,7 @@ function Login({ setUser }) {
     e.preventDefault();
 
     axios
-      .post("/api/users/login", formData)
+      .post("http://localhost:5000/api/users/login", formData)
       .then(res => {
         localStorage.setItem("token", res.data.token);
         console.log(res.data);
@@ -36,7 +36,7 @@ function Login({ setUser }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md-border border-gray-200">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-1/4 min-h-[400px] border border-gray-200">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
           Login
         </h2>

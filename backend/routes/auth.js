@@ -7,9 +7,9 @@ const router = express.Router();
 
 //Register User
 router.post("/register", (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, role } = req.body;
 
-  if (!username || !email || !password) {
+  if (!username || !email || !password || !role) {
     return res.status(400).json({ message: "Please fill all fields" });
   }
 
@@ -19,12 +19,13 @@ router.post("/register", (req, res) => {
         return res.status(400).json({ message: "User Already exists" });
       }
 
-      return User.create({ username, email, password }).then(user => {
+      return User.create({ username, email, password, role }).then(user => {
         const token = generateToken(user._id);
         return res.status(201).json({
           id: user._id,
           username: user.username,
           email: user.email,
+          role: user.role,
           token,
         });
       });
@@ -60,6 +61,7 @@ router.post("/login", (req, res) => {
           id: user._id,
           username: user.username,
           email: user.email,
+          role: user.role,
           token,
         });
       });

@@ -14,7 +14,7 @@ function Navbar({ user, setUser }) {
     <nav className="bg-gray-800 p-4 text-white">
       <div className=" mx-auto flex justify-between items-center">
         <Link to="/" className="text-white text-lg font-bold">
-          Mern Auth
+          Event Planner
         </Link>
         <div>
           {user ? (
