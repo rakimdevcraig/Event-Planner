@@ -7,6 +7,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import NotFound from "./components/NotFound";
 import CreateEvent from "./pages/CreateEvent";
+import EventDetails from "./pages/EventDetails";
+import DeleteEvent from "./pages/DeleteEvent";
+import EditEvent from "./pages/EditEvent";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -59,6 +62,21 @@ function App() {
         <Route
           path="/events/create"
           element={user ? <CreateEvent /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/events/details/:id"
+          element={
+            user ? <EventDetails user={user} /> : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/events/edit/:id"
+          element={user ? <EditEvent /> : <Navigate to="/login" />}
+        />
+
+        <Route
+          path="/events/delete/:id"
+          element={user ? <DeleteEvent /> : <Navigate to="/login" />}
         />
       </Routes>
     </>

@@ -4,7 +4,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { BsInfoCircle } from "react-icons/bs";
 import { MdOutlineDelete, MdCelebration } from "react-icons/md";
 
-function EventCard({ event }) {
+function EventCard({ event, user }) {
   return (
     <div className="border-2 border-gray-500 rounded-lg px-4 py-2 relative hover:shadow-xl">
       <div className="flex justify-start gap-x-2">
@@ -38,12 +38,23 @@ function EventCard({ event }) {
         <Link to={`/events/details/${event._id}`}>
           <BsInfoCircle className="text-2xl text-green-800 hover:text-black" />
         </Link>
-        <Link to={`/events/edit/${event._id}`}>
+        {/* <Link to={`/events/edit/${event._id}`}>
           <AiOutlineEdit className="text-2xl text-yellow-600 hover:text-black" />
         </Link>
         <Link to={`/events/delete/${event._id}`}>
           <MdOutlineDelete className="text-2xl text-red-600 hover:text-black" />
-        </Link>
+        </Link> */}
+        {user?.role === "admin" && (
+          <>
+            <Link to={`/events/edit/${event._id}`}>
+              <AiOutlineEdit className="text-2xl text-yellow-600 hover:text-black" />
+            </Link>
+
+            <Link to={`/events/delete/${event._id}`}>
+              <MdOutlineDelete className="text-2xl text-red-600 hover:text-black" />
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

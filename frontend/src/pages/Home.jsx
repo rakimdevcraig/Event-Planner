@@ -42,18 +42,18 @@ function Home({ user, error }) {
           {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-3xl font-bold text-gray-800">Events</h1>
-            <Link
-              to="/events/create"
-              className="flex items-center gap-1 text-blue-600 hover:text-blue-800 transition-colors"
-              aria-label="Add new event"
-              title="Add event"
-            >
-              <MdOutlineAddBox className="text-3xl" />
-            </Link>
+            {user.role === "admin" && (
+              <Link
+                to="/events/create"
+                className="flex items-center gap-1 text-blue-600 hover:text-blue-800 transition-colors"
+              >
+                <MdOutlineAddBox className="text-3xl" />
+              </Link>
+            )}
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {events.map(item => (
-              <EventCard event={item} key={item._id} />
+              <EventCard event={item} key={item._id} user={user} />
             ))}
           </div>
         </div>
