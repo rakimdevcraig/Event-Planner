@@ -12,7 +12,7 @@ function AddEquipment({ eventId, onEquipmentAdded }) {
     e.preventDefault();
 
     axios
-      .patch(`http://localhost:5000/api/events/${eventId}`, {
+      .patch(`${import.meta.env.VITE_API_URL}/api/events/${eventId}`, {
         equipment: [{ ...formData, qty: Number(formData.qty) }],
       })
       .then(() => {

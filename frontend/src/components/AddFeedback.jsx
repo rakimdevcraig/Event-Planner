@@ -8,7 +8,7 @@ function AddFeedback({ eventId, onFeedbackAdded }) {
     e.preventDefault();
 
     axios
-      .patch(`http://localhost:5000/api/events/${eventId}/feedback`, {
+      .patch(`${import.meta.env.VITE_API_URL}/api/events/${eventId}/feedback`, {
         feedback,
       })
       .then(() => {

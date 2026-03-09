@@ -21,7 +21,7 @@ function App() {
 
     if (token) {
       axios
-        .get("http://localhost:5000/api/users/me", {
+        .get(`${import.meta.env.VITE_API_URL}/api/users/me`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(res => {

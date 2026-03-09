@@ -14,7 +14,7 @@ function AddFood({ eventId, onFoodSaved }) {
     e.preventDefault();
 
     axios
-      .patch(`http://localhost:5000/api/events/${eventId}/food`, {
+      .patch(`${import.meta.env.VITE_API_URL}/${eventId}/food`, {
         food: formData,
       })
       .then(() => {

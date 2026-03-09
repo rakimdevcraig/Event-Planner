@@ -39,7 +39,7 @@ function CreateEvent() {
     };
 
     axios
-      .post("http://localhost:5000/api/events", payload)
+      .post("${import.meta.env.VITE_API_URL}/api/events", payload)
       .then(res => {
         navigate("/"); // go back to events list
       })

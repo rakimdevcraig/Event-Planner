@@ -10,7 +10,7 @@ function DeleteEvent() {
 
   function handleDeleteEvent() {
     axios
-      .delete(`http://localhost:5000/api/events/${id}`)
+      .delete(`${import.meta.env.VITE_API_URL}/api/events/${id}`)
       .then(() => {
         enqueueSnackbar("Event deleted successfully", {
           variant: "success",

@@ -12,7 +12,7 @@ function AddBar({ eventId, onBarAdded }) {
     e.preventDefault();
 
     axios
-      .patch(`http://localhost:5000/api/events/${eventId}/`, {
+      .patch(`${import.meta.env.VITE_API_URL}/api/events/${eventId}/`, {
         bar: [
           {
             name: formData.name,

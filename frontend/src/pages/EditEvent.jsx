@@ -17,10 +17,10 @@ function EditEvent() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // ✅ Fetch existing event data
+  //  Fetch existing event data
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/events/${id}`)
+      .get(`${import.meta.env.VITE_API_URL}/api/events/${id}`)
       .then(res => {
         const { generalInfo } = res.data;
         setFormData({

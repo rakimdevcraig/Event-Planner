@@ -23,7 +23,7 @@ function EventDetails({ user }) {
 
   const fetchEvent = () => {
     axios
-      .get(`http://localhost:5000/api/events/${id}`)
+      .get(`${import.meta.env.VITE_API_URL}/api/events/${id}`)
       .then(res => setEvent(res.data))
       .catch(console.error);
   };
