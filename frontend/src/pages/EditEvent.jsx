@@ -45,7 +45,7 @@ function EditEvent() {
     e.preventDefault();
 
     axios
-      .patch(`http://localhost:5000/api/events/${id}/general-info`, {
+      .patch(`${import.meta.env.VITE_API_URL}api/events/${id}/general-info`, {
         generalInfo: {
           name: formData.name,
           client: formData.client,

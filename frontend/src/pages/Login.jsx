@@ -18,7 +18,7 @@ function Login({ setUser }) {
     e.preventDefault();
 
     axios
-      .post("${import.meta.env.VITE_API_URL}/api/users/login", formData)
+      .post(`${import.meta.env.VITE_API_URL}/api/users/login`, formData)
       .then(res => {
         localStorage.setItem("token", res.data.token);
         console.log(res.data);
