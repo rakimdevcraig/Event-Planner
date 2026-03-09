@@ -25,6 +25,6 @@ app.use("/api/events", eventRoutes);
 
 connectDB();
 
-// app.listen(PORT, () => console.log(`App is running on port ${PORT}`));
+app.listen(PORT, () => console.log(`App is running on port ${PORT}`));
 
 module.exports = app;
