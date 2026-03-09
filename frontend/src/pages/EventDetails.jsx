@@ -36,7 +36,6 @@ function EventDetails({ user }) {
     return <div className="p-6">Loading event...</div>;
   }
 
-  /* ✅ COMPONENT MAP */
   const components = {
     eventHome: <GeneralEventInfo event={event} />,
     viewStaff: <ViewStaff staff={event.staff} />,
