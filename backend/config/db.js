@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 
 const connectDB = () => {
+  console.log("Attempting DB connection...");
+  console.log("URI exists:", !!process.env.MONGODB_URI);
   return mongoose
     .connect(process.env.MONGODB_URI)
     .then(conn => {
