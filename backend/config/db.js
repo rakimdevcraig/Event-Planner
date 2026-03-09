@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-connectDB = () => {
+const connectDB = () => {
   return mongoose
     .connect(process.env.MONGODB_URI)
     .then(conn => {
@@ -10,7 +10,7 @@ connectDB = () => {
     })
     .catch(err => {
       console.log(`MongoDB connection error: ${err}`);
-      process.exit(1);
+      // process.exit(1);
     });
 };
 
