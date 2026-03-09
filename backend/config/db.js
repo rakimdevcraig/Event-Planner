@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 
 const connectDB = () => {
-  console.log("Attempting DB connection...");
-  console.log("URI exists:", !!process.env.MONGODB_URI);
   return mongoose
     .connect(process.env.MONGODB_URI)
     .then(conn => {
@@ -12,7 +10,7 @@ const connectDB = () => {
     })
     .catch(err => {
       console.log(`MongoDB connection error: ${err}`);
-      // process.exit(1);
+      process.exit(1);
     });
 };
 
