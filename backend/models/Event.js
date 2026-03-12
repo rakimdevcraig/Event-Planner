@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-//Subschemas/Subdocuments
+// Subschemas/Subdocuments
 const generalInfoSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -39,13 +39,29 @@ const barItemSchema = new mongoose.Schema(
   { _id: false },
 );
 
+// Food subschemas
+const mealSchema = new mongoose.Schema(
+  {
+    appetizer: { type: String, default: "" },
+    main: { type: String, default: "" },
+    dessert: { type: String, default: "" },
+  },
+  { _id: false },
+);
+
+const tableSchema = new mongoose.Schema(
+  {
+    name: { type: String, default: "" },
+    seats: { type: [String], default: [] },
+    misc: { type: String, default: "" },
+  },
+  { _id: false },
+);
+
 const foodSchema = new mongoose.Schema(
   {
-    firstCourse: String,
-    secondCourse: String,
-    dessert: String,
-    allergies: String,
-    misc: String,
+    meals: { type: [mealSchema], default: [] },
+    tables: { type: [tableSchema], default: [] },
   },
   { _id: false },
 );
@@ -61,7 +77,7 @@ const eventSchema = new mongoose.Schema(
     staff: [staffSchema],
     equipment: [equipmentSchema],
     bar: [barItemSchema],
-    food: foodSchema,
+    food: { type: foodSchema, default: () => ({}) },
     feedback: {
       type: String,
       default: "",
@@ -73,3 +89,79 @@ const eventSchema = new mongoose.Schema(
 const Event = mongoose.model("Event", eventSchema);
 
 module.exports = Event;
+
+// const mongoose = require("mongoose");
+
+// //Subschemas/Subdocuments
+// const generalInfoSchema = new mongoose.Schema(
+//   {
+//     name: { type: String, required: true },
+//     client: { type: String, required: true },
+//     location: { type: String, required: true },
+//     guests: { type: Number, required: true },
+//     type: { type: String, required: true },
+//   },
+//   { _id: false },
+// );
+
+// const staffSchema = new mongoose.Schema(
+//   {
+//     name: { type: String },
+//     start: { type: String },
+//     end: { type: String },
+//   },
+//   { _id: false },
+// );
+
+// const equipmentSchema = new mongoose.Schema(
+//   {
+//     name: { type: String },
+//     type: { type: String },
+//     qty: { type: Number },
+//   },
+//   { _id: false },
+// );
+
+// const barItemSchema = new mongoose.Schema(
+//   {
+//     name: { type: String },
+//     startQty: { type: Number },
+//     endQty: { type: Number, default: 0 },
+//   },
+//   { _id: false },
+// );
+
+// const foodSchema = new mongoose.Schema(
+//   {
+//     firstCourse: String,
+//     secondCourse: String,
+//     dessert: String,
+//     allergies: String,
+//     misc: String,
+//   },
+//   { _id: false },
+// );
+
+// /* ---------- Main Schema ---------- */
+
+// const eventSchema = new mongoose.Schema(
+//   {
+//     generalInfo: {
+//       type: generalInfoSchema,
+//       required: true,
+//     },
+//     staff: [staffSchema],
+//     equipment: [equipmentSchema],
+//     bar: [barItemSchema],
+//     food: foodSchema,
+//     feedback: {
+//       type: String,
+//       default: "",
+//     },
+//   },
+//   { timestamps: true },
+// );
+
+// const Event = mongoose.model("Event", eventSchema);
+
+// module.exports = Event;

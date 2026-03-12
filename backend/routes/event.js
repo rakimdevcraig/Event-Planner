@@ -51,7 +51,10 @@ router.get("/:id", (req, res) => {
     });
 });
 
-//  Create event
+/* ======================================================
+   POST ROUTES
+   ====================================================== */
+
 router.post("/", (req, res) => {
   const { generalInfo, staff, equipment, bar, food, feedback } = req.body;
 
@@ -75,15 +78,17 @@ router.post("/", (req, res) => {
     });
 });
 
+/* ======================================================
+   PATCH ROUTES
+   ====================================================== */
+
 // Update general info
 router.patch("/:id/general-info", (req, res) => {
   const { id } = req.params;
   const { generalInfo } = req.body;
 
   if (!generalInfo) {
-    return res.status(400).json({
-      message: "generalInfo is required",
-    });
+    return res.status(400).json({ message: "generalInfo is required" });
   }
 
   Event.findByIdAndUpdate(
@@ -103,15 +108,69 @@ router.patch("/:id/general-info", (req, res) => {
     });
 });
 
-// update food
+// Save meals definitions
+router.patch("/:id/food/meals", (req, res) => {
+  const { id } = req.params;
+  const { meals } = req.body;
+
+  if (!meals) {
+    return res.status(400).json({ message: "meals is required" });
+  }
+
+  Event.findByIdAndUpdate(
+    id,
+    { $set: { "food.meals": meals } },
+    { new: true, runValidators: true },
+  )
+    .then(event => {
+      if (!event) {
+        return res.status(404).json({ message: "Event not found" });
+      }
+      res.status(200).json(event);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ message: "Server error" });
+    });
+});
+
+// Update a single table within food.tables
+router.patch("/:id/food/table/:tableIndex", (req, res) => {
+  const { id, tableIndex } = req.params;
+  const { table } = req.body;
+
+  if (!table) {
+    return res.status(400).json({ message: "table is required" });
+  }
+
+  Event.findById(id)
+    .then(event => {
+      if (!event) {
+        return res.status(404).json({ message: "Event not found" });
+      }
+
+      if (!event.food) event.food = { meals: [], tables: [] };
+      if (!event.food.tables) event.food.tables = [];
+
+      event.food.tables[tableIndex] = table;
+      event.markModified("food.tables");
+
+      return event.save();
+    })
+    .then(updated => res.status(200).json(updated))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ message: "Server error" });
+    });
+});
+
+// Update food (legacy full replace)
 router.patch("/:id/food", (req, res) => {
   const { id } = req.params;
   const { food } = req.body;
 
   if (!food) {
-    return res.status(400).json({
-      message: "food is required",
-    });
+    return res.status(400).json({ message: "food is required" });
   }
 
   Event.findByIdAndUpdate(
@@ -121,11 +180,8 @@ router.patch("/:id/food", (req, res) => {
   )
     .then(event => {
       if (!event) {
-        return res.status(404).json({
-          message: "Event not found",
-        });
+        return res.status(404).json({ message: "Event not found" });
       }
-
       res.status(200).json(event);
     })
     .catch(err => {
@@ -134,15 +190,13 @@ router.patch("/:id/food", (req, res) => {
     });
 });
 
-// update feedback
+// Update feedback
 router.patch("/:id/feedback", (req, res) => {
   const { id } = req.params;
   const { feedback } = req.body;
 
   if (feedback === undefined) {
-    return res.status(400).json({
-      message: "feedback is required",
-    });
+    return res.status(400).json({ message: "feedback is required" });
   }
 
   Event.findByIdAndUpdate(
@@ -152,11 +206,8 @@ router.patch("/:id/feedback", (req, res) => {
   )
     .then(event => {
       if (!event) {
-        return res.status(404).json({
-          message: "Event not found",
-        });
+        return res.status(404).json({ message: "Event not found" });
       }
-
       res.status(200).json(event);
     })
     .catch(err => {
@@ -165,7 +216,7 @@ router.patch("/:id/feedback", (req, res) => {
     });
 });
 
-//Has to stay last or will intercept other patch  requests
+// Generic patch — must stay last
 router.patch("/:id", (req, res) => {
   const { id } = req.params;
 
@@ -182,6 +233,32 @@ router.patch("/:id", (req, res) => {
     })
     .catch(err => {
       console.error(err.message);
+      res.status(500).json({ message: "Server error" });
+    });
+});
+
+/* ======================================================
+   DELETE ROUTES
+   ====================================================== */
+
+// Remove a table by index
+router.delete("/:id/food/table/:tableIndex", (req, res) => {
+  const { id, tableIndex } = req.params;
+
+  Event.findById(id)
+    .then(event => {
+      if (!event) {
+        return res.status(404).json({ message: "Event not found" });
+      }
+
+      event.food.tables.splice(Number(tableIndex), 1);
+      event.markModified("food.tables");
+
+      return event.save();
+    })
+    .then(updated => res.status(200).json(updated))
+    .catch(err => {
+      console.error(err);
       res.status(500).json({ message: "Server error" });
     });
 });
